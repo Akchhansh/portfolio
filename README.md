@@ -121,7 +121,3 @@ npm run preview
 - **Character / Visual Assets**: Replace image files in `public/` (e.g., `boy-stand.png`, `boy-walk.png`, `japan-scene.png`).
 
 ---
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
