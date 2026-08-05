@@ -1,0 +1,672 @@
+@import "tailwindcss";
+
+/* ============================================
+   DESIGN SYSTEM — Japanese Scrollytelling
+   ============================================ */
+
+@theme {
+  --color-sakura: #f7c6d9;
+  --color-sakura-deep: #e8a0bf;
+  --color-peach: #ffd6a5;
+  --color-lavender: #cdb4db;
+  --color-sky: #bde0fe;
+  --color-sky-deep: #7fbfff;
+  --color-cream: #fef9ef;
+  --color-night: #1a1a2e;
+  --color-night-mid: #16213e;
+  --color-night-deep: #0f3460;
+  --color-gold: #ffd700;
+  --color-amber: #ffa500;
+  --color-moss: #7a9e7e;
+
+  --font-serif: "Noto Serif JP", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-script: "Dancing Script", cursive;
+
+  --radius-clay: 24px;
+  --shadow-clay: 0 8px 32px rgba(247, 198, 217, 0.4), 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-clay-dark: 0 8px 32px rgba(26, 26, 46, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== BASE RESET ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto;
+  /* GSAP handles smooth scroll */
+  overflow-x: clip;
+  scroll-snap-type: y mandatory;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-cream);
+  color: #2d2d2d;
+  cursor: none;
+  /* custom cursor */
+  overflow-x: clip;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0e6ff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #f7c6d9, #cdb4db);
+  border-radius: 3px;
+}
+
+/* ===== CUSTOM CURSOR ===== */
+.cursor-dot {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #f7c6d9;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, background 0.3s;
+  mix-blend-mode: multiply;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  background: radial-gradient(circle, rgba(247, 198, 217, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease;
+}
+
+.cursor-ripple {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(247, 198, 217, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+/* ===== CLAYMORPHISM COMPONENTS ===== */
+.clay-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-clay);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-clay), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  padding: 28px 32px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s ease;
+}
+
+.clay-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(247, 198, 217, 0.5),
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.clay-card-dark {
+  background: rgba(22, 33, 62, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-clay);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-clay-dark), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 28px 32px;
+  color: #f0e6ff;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s ease;
+}
+
+.clay-card-dark:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(205, 180, 219, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.clay-btn {
+  border-radius: 50px;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(247, 198, 217, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: none;
+  font-family: var(--font-sans);
+}
+
+.clay-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(247, 198, 217, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* ===== SECTION BASE ===== */
+.story-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 80px 20px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* ===== PARALLAX SCENE ===== */
+.parallax-scene {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.parallax-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* ===== SKY GRADIENT ===== */
+.sky-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      #ffd6a5 0%,
+      #ffb347 15%,
+      #ff8c69 30%,
+      #e8a0bf 50%,
+      #bde0fe 75%,
+      #ddf4ff 100%);
+  transition: opacity 1s ease;
+}
+
+/* ===== FLOATING ANIMATION ===== */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+
+  66% {
+    transform: translateY(-6px) rotate(-1deg);
+  }
+}
+
+@keyframes floatSlow {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+@keyframes petalFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg) translateX(0px);
+    opacity: 1;
+  }
+
+  25% {
+    transform: translateY(25vh) rotate(90deg) translateX(30px);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: translateY(50vh) rotate(180deg) translateX(-20px);
+    opacity: 0.8;
+  }
+
+  75% {
+    transform: translateY(75vh) rotate(270deg) translateX(40px);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateY(105vh) rotate(360deg) translateX(0px);
+    opacity: 0;
+  }
+}
+
+@keyframes lanternGlow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(255, 180, 50, 0.6));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 180, 50, 1));
+  }
+}
+
+@keyframes firefly {
+
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translate(20px, -30px);
+  }
+
+  90% {
+    opacity: 1;
+  }
+}
+
+@keyframes starTwinkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes walkCycle {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  100% {
+    background-position: -800px 0px;
+  }
+}
+
+@keyframes windSway {
+
+  0%,
+  100% {
+    transform: rotate(0deg) skewX(0deg);
+  }
+
+  25% {
+    transform: rotate(2deg) skewX(1deg);
+  }
+
+  75% {
+    transform: rotate(-1deg) skewX(-0.5deg);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blinkCursor {
+
+  0%,
+  100% {
+    border-right-color: #f7c6d9;
+  }
+
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes pathDraw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scrollBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes nightFall {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ===== PETAL PARTICLES ===== */
+.petal {
+  position: absolute;
+  width: 12px;
+  height: 10px;
+  border-radius: 50% 0 50% 0;
+  animation: petalFall linear infinite;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* ===== SCROLL PROGRESS ===== */
+.scroll-progress-track {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 200px;
+  background: rgba(247, 198, 217, 0.3);
+  border-radius: 2px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.scroll-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #f7c6d9, #cdb4db, #bde0fe);
+  border-radius: 2px;
+  transition: height 0.1s ease;
+}
+
+.scroll-progress-dot {
+  position: fixed;
+  left: 19px;
+  width: 14px;
+  height: 14px;
+  background: #f7c6d9;
+  border: 2.5px solid white;
+  border-radius: 50%;
+  z-index: 101;
+  box-shadow: 0 0 10px rgba(247, 198, 217, 0.8);
+  transition: top 0.1s ease;
+}
+
+/* ===== TYPING ANIMATION ===== */
+.typing-text {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #f7c6d9;
+  animation: typing 2.5s steps(20, end) forwards,
+    blinkCursor 0.8s step-end infinite;
+  width: 0;
+}
+
+/* ===== SKILL LANTERN ===== */
+.skill-lantern {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: none;
+}
+
+/* ===== TIMELINE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+  .timeline-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin-bottom: 32px !important;
+    width: 100% !important;
+  }
+
+  .timeline-spacer {
+    display: none !important;
+  }
+
+  .timeline-line-svg {
+    display: none !important;
+  }
+
+  .milestone-dot {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  .milestone-card {
+    text-align: left !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-top: none !important;
+    border-left: 4px solid var(--timeline-color, #c084fc) !important;
+    transform: none !important;
+    /* Extremely important: disables GSAP's 60px horizontal overflow during animation */
+  }
+
+  .milestone-header {
+    justify-content: flex-start !important;
+  }
+}
+
+.skill-lantern:hover .lantern-body {
+  animation: lanternGlow 0.5s ease forwards;
+  transform: scale(1.1);
+}
+
+.lantern-body {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(90deg, #f7c6d9, #cdb4db);
+}
+
+/* ===== PROJECT CARD ===== */
+.project-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.project-card .card-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(transparent 0deg,
+      rgba(255, 255, 255, 0.15) 60deg,
+      transparent 120deg);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.project-card:hover .card-shine {
+  opacity: 1;
+}
+
+/* ===== MODAL ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 46, 0.7);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  border-radius: 32px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(247, 198, 217, 0.3);
+  padding: 40px;
+  max-width: 620px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* ===== AUDIO TOGGLE ===== */
+.audio-btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 500;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+}
+
+/* ===== TIMELINE PATH ===== */
+.timeline-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+/* ===== NIGHT STARS ===== */
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  animation: starTwinkle ease-in-out infinite;
+}
+
+.firefly-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ffe680;
+  border-radius: 50%;
+  animation: firefly ease-in-out infinite;
+  box-shadow: 0 0 6px 2px rgba(255, 230, 128, 0.6);
+}
+
+/* ===== SECTION CONTENT WRAPPER ===== */
+.section-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+  .cursor-dot,
+  .cursor-glow {
+    display: none;
+  }
+
+  body {
+    cursor: default;
+  }
+
+  .scroll-progress-track,
+  .scroll-progress-dot {
+    display: none;
+  }
+
+  .clay-card {
+    padding: 20px 22px;
+  }
+
+  .story-section {
+    padding: 60px 16px;
+  }
+}
